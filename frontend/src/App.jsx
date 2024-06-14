@@ -7,6 +7,7 @@ import Projects from './assets/pages/Projects';
 import SignUp from './assets/pages/SignUp';
 import SignIn from './assets/pages/SignIn';
 import Header from './components/Header';
+import FooterComp from './components/Footer';
 
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
       </Routes>
+      <FooterComp />
     </BrowserRouter>
   )
 }
