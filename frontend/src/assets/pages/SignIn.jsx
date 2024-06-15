@@ -1,13 +1,15 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { signInStart, signInSuccess, signInFailure } from '../../redux/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
 
-  const [errorMessage, setErrorMessage] = useState(null);
+  const {loading, error: errorMessage} = useSelector(state => state.user);
 
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   // Initializing the navigate 
   const navigate  = useNavigate();
@@ -22,15 +24,13 @@ const SignIn = () => {
     // change the proxy in the vite.config.js
 
     if(!formData.email || !formData.password) {
-      return setErrorMessage("All fields are required");
+      return dispatch(signInFailure("All fields are required"));
     }
 
     try {
 
       // Setting the loading effect
-      setLoading(true);
-      setErrorMessage(null);
-
+      dispatch(signInStart());
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: { 'content-type' : 'application/json' },
@@ -39,18 +39,17 @@ const SignIn = () => {
       const data = await res.json();
 
       if(data.success === false) {
-        return setErrorMessage(data.message);
+        dispatch(signInFailure(data.message))
       }
-      setLoading(false);
 
       // used react useNavigate hook
       if(res.ok) {
+        dispatch(signInSuccess(data));
         navigate('/')
       }
 
     } catch (error) {
-      setErrorMessage(error.message);
-      setLoading(false);
+      dispatch(signInFailure(error.message));
     }
   }
 
