@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInStart, signInSuccess, signInFailure } from '../../redux/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import OAuthGoogle from '../../components/OAuthGoogle';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
@@ -103,6 +104,7 @@ const SignIn = () => {
                   ) : 'Sign In'
                 }
               </Button>
+              <OAuthGoogle />
             </form>
             <div className="text-sm mt-3">
               <Link to='/sign-up' className='text-blue-500'>

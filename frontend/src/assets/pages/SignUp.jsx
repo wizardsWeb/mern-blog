@@ -1,6 +1,7 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import OAuthGoogle from '../../components/OAuthGoogle';
 
 const SignUp = () => {
 
@@ -114,6 +115,7 @@ const SignUp = () => {
                   ) : 'Sign Up'
                 }
               </Button>
+              <OAuthGoogle />
             </form>
             <div className="text-sm mt-3">
               <Link to='/sign-in' className='text-blue-500'>
