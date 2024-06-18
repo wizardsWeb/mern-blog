@@ -8,7 +8,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { updateStart, updateFailure, updateSuccess } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
-import { deleteUserStart, deleteUserSuccess, deleteUserFailure} from '../redux/user/userSlice';
+import { deleteUserStart, deleteUserSuccess, deleteUserFailure, signoutSuccess} from '../redux/user/userSlice';
 
 export default function DashProfile() {
 
@@ -117,25 +117,41 @@ export default function DashProfile() {
     }
   }
 
-  const handleDeleteUser = async() => {
+  const handleDeleteUser = async () => {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
       });
       const data = await res.json();
-      if(!res.ok) {
-        dispatch(deleteUserFailure(error.message));
-      }
-      else {
+      if (!res.ok) {
+        dispatch(deleteUserFailure(data.message));
+      } else {
         dispatch(deleteUserSuccess(data));
       }
-      
     } catch (error) {
-      dispatch(deleteUserFailure(error.message))
+      dispatch(deleteUserFailure(error.message));
     }
   };
+
+  const handleSignOut = async() => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST'
+      });
+      const data = await res.json();
+      
+      if(!res.ok){
+        console.log(data.message);
+      }else {  
+        dispatch(signoutSuccess(data));
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -192,7 +208,7 @@ export default function DashProfile() {
         </form>
         <div className="text-red-500 flex justify-between mt-5">
           <span className='cursor-pointer' onClick={() => {setShowModal(true)}}>Delete Account</span>
-          <span className='cursor-pointer'>Sign Out</span>
+          <span className='cursor-pointer' onClick={handleSignOut}>Sign Out</span>
         </div>
         {updateUserSuccess && (
         <Alert color='success' className='mt-5'>
