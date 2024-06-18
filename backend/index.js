@@ -4,9 +4,11 @@ const dotenv = require('dotenv');
 const app = express();
 const userRouter = require('./routes/user.route');
 const authRouter = require('./routes/auth.route');
+const cookieParser = require('cookie-parser');
 const PORT = 3000;
 
 dotenv.config();
+app.use(cookieParser());
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO)
@@ -31,6 +33,9 @@ app.use((err, req, res, next) => {
         message
     })
 });
+
+
+
 
 app.listen(PORT, () => {
     console.log(`App is up and running of port ${PORT} `);
