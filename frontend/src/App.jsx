@@ -9,6 +9,8 @@ import SignIn from './assets/pages/SignIn';
 import Header from './components/Header';
 import FooterComp from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
+import OnlyAdminPrivateRoute from'./components/OnlyAdminPrivateRoute';
+import CreatePost from './assets/pages/CreatePost';
 
 
 const App = () => {
@@ -24,6 +26,9 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
+        <Route element={<OnlyAdminPrivateRoute />}>
+          <Route path="/create-post" element={<CreatePost />} />
+        </Route>
       </Routes>
       <FooterComp />
     </BrowserRouter>
