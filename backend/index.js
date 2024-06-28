@@ -6,6 +6,7 @@ const userRouter = require('./routes/user.route');
 const authRouter = require('./routes/auth.route');
 const cookieParser = require('cookie-parser');
 const postRouter = require('./routes/post.route');
+const commentRouter = require('./routes/comment.route');
 const PORT = 3000;
 
 dotenv.config();
@@ -23,7 +24,8 @@ mongoose.connect(process.env.MONGO)
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/post", postRouter)
+app.use("/api/post", postRouter);
+app.use("/api/comment", commentRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
