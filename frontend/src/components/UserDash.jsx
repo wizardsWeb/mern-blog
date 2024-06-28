@@ -18,7 +18,7 @@ export default function UserDash() {
           const data = await res.json();
           if (res.ok) {
             setUsers(data.usersWithoutPassword);
-            if (data.users.length < 9) {
+            if (data.usersWithoutPassword.length < 9) {
               setShowMore(false);
             }
           }
@@ -37,8 +37,8 @@ export default function UserDash() {
         const res = await fetch(`/api/user/getusers?startIndex=${startIndex}`);
         const data = await res.json();
         if (res.ok) {
-          setUsers((prev) => [...prev, ...data.users]);
-          if (data.users.length < 9) {
+          setUsers((prev) => [...prev, ...data.usersWithoutPassword]);
+          if (data.usersWithoutPassword.length < 9) {
             setShowMore(false);
           }
         }
@@ -47,7 +47,22 @@ export default function UserDash() {
       }
     };
   
-    const handleDeleteUser = async () => {};
+    const handleDeleteUser = async () => {
+        try {
+            const res = await fetch(`/api/user/delete/${userIdToDelete}`,{
+                method: 'DELETE',
+            });
+            if(res.ok) {
+                setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete));
+                setShowModal(false);
+            }
+            else {
+                console.log(data.message);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
 
   return (
     <>
