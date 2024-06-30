@@ -1,6 +1,6 @@
-const Comment = require('../models/comment.model.js');
+const Comment = require('../models/comment.model');
 
-const createComment = async (req, res, next) => {
+const createComment = async(req, res, next) => {
   try {
     const { content, postId, userId } = req.body;
 
@@ -17,10 +17,24 @@ const createComment = async (req, res, next) => {
     });
     await newComment.save();
 
+    console.log(newComment)
+
     res.status(200).json(newComment);
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = {createComment};
+const getPostComments = async(req, res, next) => {
+    try {
+      const comments = await Comment.find({postId: req.params.postId}).sort({
+        createdAt: -1,
+      });
+
+      res.status(200).json(comments)
+    } catch (error) {
+      next(error);
+    }
+}
+
+module.exports = {createComment, getPostComments};
