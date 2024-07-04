@@ -8,4 +8,5 @@ postRouter.get('/getposts', getposts);
 postRouter.delete('/deletepost/:postId/:userId', verifyToken, deletepost);
 postRouter.put('/updatepost/:postId/:userId', verifyToken, updatepost)
 
+
 module.exports = postRouter;
