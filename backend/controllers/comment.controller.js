@@ -134,9 +134,7 @@ const getcomments = async (req, res, next) => {
       lastMonthComments
     })
 
-
-
-    res.status(200).json(comments) 
+ 
   } catch (error) {
     next(error);
   }
