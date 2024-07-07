@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const postRouter = require('./routes/post.route');
 const commentRouter = require('./routes/comment.route');
 const path = require('path')
-const PORT = 3000;
+const PORT = 4000;
 
 dotenv.config();
 app.use(cookieParser());
@@ -28,9 +28,9 @@ app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter);
 
-app.use(express.static(path.join(__dirname, '/client/dist')));
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
   });
 
 app.use((err, req, res, next) => {
