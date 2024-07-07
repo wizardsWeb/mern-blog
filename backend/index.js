@@ -7,6 +7,7 @@ const authRouter = require('./routes/auth.route');
 const cookieParser = require('cookie-parser');
 const postRouter = require('./routes/post.route');
 const commentRouter = require('./routes/comment.route');
+const path = require('path')
 const PORT = 3000;
 
 dotenv.config();
@@ -27,6 +28,11 @@ app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter);
 
+app.use(express.static(path.join(__dirname, '/client/dist')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+  });
+
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal Server error';
@@ -37,8 +43,6 @@ app.use((err, req, res, next) => {
         message
     })
 });
-
-
 
 
 app.listen(PORT, () => {
