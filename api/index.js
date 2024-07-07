@@ -27,7 +27,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter);
 
-const frontendPath = path.join(__dirname, '/frontend/dist');
+const frontendPath = path.join(__dirname, '/client/dist');
 console.log('Serving static files from:', frontendPath); // Log the path for verification
 app.use(express.static(frontendPath));
 app.get('*', (req, res) => {
