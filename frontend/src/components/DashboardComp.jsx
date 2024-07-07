@@ -22,13 +22,16 @@ export default function DashboardComp() {
   const [lastMonthComments, setLastMonthComments] = useState(0);
   const { currentUser } = useSelector((state) => state.user)
 
+  console.log(users);
+
   useEffect(() => {
     const fetchUsers = async () => {
         try {
         const res = await fetch('/api/user/getusers?limit=5')
         const data = await res.json();
+        console.log(data)
         if(res.ok) {
-            setUsers(data.users);
+            setUsers(data.usersWithoutPassword);
             setTotalUsers(data.totalUsers);
             setLastMonthUsers(data.lastMonthUsers)
         }
@@ -51,7 +54,7 @@ export default function DashboardComp() {
     }
     const fetchComments = async () => {
         try {
-            const res = await fetch('/api/post/getcomments?limit=5')
+            const res = await fetch('/api/comment/getcomments?limit=5')
             const data = await res.json();
             if(res.ok) {
                 setComments(data.comments);
@@ -126,7 +129,7 @@ export default function DashboardComp() {
       </div>
       <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center'>
         <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
-          <div className='flex justify-between  p-3 text-sm font-semibold'>
+          <div className='flex justify-between  p-3 text-sm font-semibold '>
             <h1 className='text-center p-2'>Recent users</h1>
             <Button outline gradientDuoTone='purpleToPink'>
               <Link to={'/dashboard?tab=users'}>See all</Link>
