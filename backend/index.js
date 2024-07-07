@@ -22,16 +22,17 @@ mongoose.connect(process.env.MONGO)
         console.log(err);
     })
 
-
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter);
 
-app.use(express.static(path.join(__dirname, '/frontend/dist')));
+const frontendPath = path.join(__dirname, '/frontend/dist');
+console.log('Serving static files from:', frontendPath); // Log the path for verification
+app.use(express.static(frontendPath));
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
-  });
+    res.sendFile(path.join(frontendPath, 'index.html'));
+});
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
@@ -44,7 +45,6 @@ app.use((err, req, res, next) => {
     })
 });
 
-
 app.listen(PORT, () => {
-    console.log(`App is up and running of port ${PORT} `);
-})
+    console.log(`App is up and running on port ${PORT}`);
+});
